@@ -30,9 +30,9 @@
 
 
 
-\title{Documentation for C${++}$ \LaTeX{} assistant}
+\title{Documentation for C${++}$ \LaTeX{} assistant ZetoTex}
 \date{\today{}}
-\author{Carl Schaffer, University of Freiburg}
+\author{Carl Schaffer}
         
 
 
@@ -41,51 +41,51 @@
 \begin{document}
 
       \maketitle
-\newpage{}
+      \newpage{}
 
-%Writing helpers
-\setlength{\parindent}{0pt}
+      % Writing helpers
+      \setlength{\parindent}{0pt}
 
-\newcommand{\stdv}{\texttt{std::vector} }
-\newcommand{\la}{LaTeX Assistant}
-\newcommand{\ta}{\texttt{\textbf{tex\_assistant}}}
-\newcommand{\filename}[1]{\textit{#1}}
-\newcommand{\cpp}{\textbf{C++}}
+      \newcommand{\stdv}{\texttt{std::vector} } 
+      \newcommand{\la}{LaTeX Assistant}
+      \newcommand{\ta}{\texttt{\textbf{tex\_assistant}}}
+      \newcommand{\filename}[1]{\texttt{#1}}
+      \newcommand{\cpp}{\textbf{C++}}
+      \newcommand{\ztt}{ZetoTex}
 
-\newcommand{\singleValCmd}{\cmdstyle{.ncmdValue()}}
-\newcommand{\arrayCmd}{\cmdstyle{.ncmdArray()}}
-\newcommand{\cmdstyle}[1]{\textbf{\texttt{#1}}}
+      \newcommand{\singleValCmd}{\cmdstyle{.ncmdValue()}}
+      \newcommand{\arrayCmd}{\cmdstyle{.ncmdArray()}}
+      \newcommand{\cmdstyle}[1]{\textbf{\texttt{#1}}}
 
-\newcommand{\headerfile}{\filename{latex\_assistant.h}}
-\newcommand{\texfile}{\enquote{.tex} file}
+      \newcommand{\headerfile}{\filename{zetotex.hpp}}
+      \newcommand{\texfile}{\enquote{.tex} file}
 
 
 \section{Introduction}
-\input{../output/tex_sample.tex}
-The Latex assistant provides a custom class designed to convert data
-objects inherent to \cpp{} into \LaTeX{} code. This is done by
-a \la{} which receives and processes the data contents and produces
-a \enquote{.tex}  file providing custom commands usable for writing. This document will show how to use the Latex assistant and provide
+\input{../output/tex_sample.tex} \ztt{} provides an assistant to simplify
+getting analysis results into finished \LaTeX{} documents. It
+provides a custom class designed to convert data objects inherent to \cpp{} into
+\LaTeX{} code. This is done by a \la{} which receives and processes the data
+contents and produces a \enquote{.tex} file providing custom commands usable for
+writing. This document will show how to use the Latex assistant and provide
 examples of output.
 
 
 \section{Using the Assistant}
-In order to use the assistant, the custom header
-\headerfile{} needs to be included in your
-\cpp{}-project. this can be done using 
+In order to use the assistant, the custom header \headerfile{} needs to be
+included in your \cpp{}-project. this can be done using
 \begin{verbatim}
-#include "path/to/latex_assistant.h"
+#include "path/to/zetotex.h"
 \end{verbatim}
-in your code header. This provides the \ta{} class which will be used
-to handle all actions described in the following sections. 
+in your code header. This provides the \ta{} class which will be used to handle
+all actions described in the following sections.
 \subsection{The \enquote{tex\_assistant} Class}
 
-The interface consists of an object of the type \ta{}. The constructor
-takes one argument, which is a string containing the path where the latex document
-containing the new commands should be created. An empty version of this file is recreated
-every time the \ta{} constructor is called. The actual writing is done
-by calling methods inherent to the \ta{} class. Example Constructor
-call:
+The interface consists of an object of the type \ta{}. The constructor takes one
+argument, which is a string containing the path where the latex document
+containing the new commands should be created. An empty version of this file is
+recreated every time the \ta{} constructor is called. The actual writing is done
+by calling methods inherent to the \ta{} class. Example Constructor call:
 
 \begin{verbatim}
 tex_assistant ta = tex_assistant("./output/tex_sample.tex");
@@ -121,13 +121,14 @@ Invoking these commands in a document yields:
 
 \newpage{}
 \subsection{Writing arrays using ncmdArray}
-Data available in \stdv{} form can be written to using
-\arrayCmd{}. This command requires three arguments:
+Data available in \stdv{} form can be written to using \arrayCmd{}. This command
+requires three arguments:
 
 \begin{enumerate}
 \item the command name as a string
 \item a \stdv{} containing the column headers
-\item a \stdv{}\texttt{(}\stdv\texttt{)} containing single \stdv{}'s for each line
+\item a \stdv{}\texttt{(}\stdv\texttt{)} containing single \stdv{}'s for each
+  line
 \end{enumerate}
 
 Here is some sample output from first calling
@@ -139,29 +140,29 @@ which produces the following in the \texfile{:
 \begin{verbatim}
 \newcommand{\SampleArray}{
         \begin{tabular}{|c|c|c|c|c|c|}
-        \hline Column 0 & Column 1 & Column 2 & Column 3 & Column 4 & Column 5 \\
-        \hline 0 & 1 & 2 & 3 &   &  \\
-        \hline 0 & 1 & 2 & 3 &   &  \\
-        \hline 0 & 1 & 2 & 3 &   &  \\
-        \hline 0 & 1 & 2 & 3 &   &  \\
-        \hline
+          \hline Column 0 & Column 1 & Column 2 & Column 3 & Column 4 & Column 5 \\
+          \hline 0 & 1 & 2 & 3 &   &  \\
+          \hline 0 & 1 & 2 & 3 &   &  \\
+          \hline 0 & 1 & 2 & 3 &   &  \\
+          \hline 0 & 1 & 2 & 3 &   &  \\
+          \hline
         \end{tabular}
 }
 
 \end{verbatim}
 
-and then calling \cmdstyle{\tt \string \SampleArray} within a table
-environment in the final \LaTeX{} document.
-\begin{table}[htbp]
-  \centering
-  \SampleArray
-  \caption{Sample array}
-  \label{tab:sample1}
-\end{table}
+  and then calling \cmdstyle{\tt \string \SampleArray} within a table
+  environment in the final \LaTeX{} document.
+  \begin{table}[htbp]
+    \centering
+    \SampleArray
+    \caption{Sample array}
+    \label{tab:sample1}
+  \end{table}
 
-Note that in this example, the \stdv{} containing the column header
-strings is larger than the data. In this case, the assistant
-automatically fills empty cells to the right of the existing data
-after printing a warning on the console.
+  Note that in this example, the \stdv{} containing the column header strings is
+  larger than the data. In this case, the assistant automatically fills empty
+  cells to the right of the existing data after printing a warning on the
+  console.
 
 \end{document}
