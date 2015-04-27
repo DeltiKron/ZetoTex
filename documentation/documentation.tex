@@ -1,0 +1,167 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[margin = 3.5cm,tmargin = 5cm]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Carl Schaffer}
+\chead{\ta{} Documentation}
+\rhead{Version 1.0}
+\rfoot{Page \thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{amsmath}
+
+\usepackage{csquotes}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{color}
+
+\let\oldv\verbatim
+\let\oldendv\endverbatim
+
+\def\verbatim{\par\setbox0\vbox\bgroup\oldv}
+\def\endverbatim{\oldendv\egroup\fboxsep0pt \noindent\colorbox[gray]{0.8}{\usebox0}\par}
+
+
+
+\title{Documentation for C${++}$ \LaTeX{} assistant}
+\date{\today{}}
+\author{Carl Schaffer, University of Freiburg}
+        
+
+
+
+
+\begin{document}
+
+      \maketitle
+\newpage{}
+
+%Writing helpers
+\setlength{\parindent}{0pt}
+
+\newcommand{\stdv}{\texttt{std::vector} }
+\newcommand{\la}{LaTeX Assistant}
+\newcommand{\ta}{\texttt{\textbf{tex\_assistant}}}
+\newcommand{\filename}[1]{\textit{#1}}
+\newcommand{\cpp}{\textbf{C++}}
+
+\newcommand{\singleValCmd}{\cmdstyle{.ncmdValue()}}
+\newcommand{\arrayCmd}{\cmdstyle{.ncmdArray()}}
+\newcommand{\cmdstyle}[1]{\textbf{\texttt{#1}}}
+
+\newcommand{\headerfile}{\filename{latex\_assistant.h}}
+\newcommand{\texfile}{\enquote{.tex} file}
+
+
+\section{Introduction}
+\input{../output/tex_sample.tex}
+The Latex assistant provides a custom class designed to convert data
+objects inherent to \cpp{} into \LaTeX{} code. This is done by
+a \la{} which receives and processes the data contents and produces
+a \enquote{.tex}  file providing custom commands usable for writing. This document will show how to use the Latex assistant and provide
+examples of output.
+
+
+\section{Using the Assistant}
+In order to use the assistant, the custom header
+\headerfile{} needs to be included in your
+\cpp{}-project. this can be done using 
+\begin{verbatim}
+#include "path/to/latex_assistant.h"
+\end{verbatim}
+in your code header. This provides the \ta{} class which will be used
+to handle all actions described in the following sections. 
+\subsection{The \enquote{tex\_assistant} Class}
+
+The interface consists of an object of the type \ta{}. The constructor
+takes one argument, which is a string containing the path where the latex document
+containing the new commands should be created. An empty version of this file is recreated
+every time the \ta{} constructor is called. The actual writing is done
+by calling methods inherent to the \ta{} class. Example Constructor
+call:
+
+\begin{verbatim}
+tex_assistant ta = tex_assistant("./output/tex_sample.tex");
+\end{verbatim}
+
+\subsection{Single Number Commands}
+
+A command to represent a single number can be generated using the
+\singleValCmd{} method. It can be called as:
+\begin{verbatim}
+ta.ncmdValue("commandWithFloat",1.002);
+\end{verbatim}
+for float values or as
+\begin{verbatim}
+ta.ncmdValue("commandWithInteger",1);
+\end{verbatim}
+which produces the following output in the \enquote{.tex} file:
+\begin{verbatim}
+\newcommand{\commandWithFloat}{1.0002}
+
+\newcommand{\commandWithInteger}{1}
+\end{verbatim}
+
+Invoking these commands in a document yields:
+
+\begin{center}
+  \begin{tabular}{l|l}
+    Command & Output\\ \hline{}
+    \verb|\commandWithFloat| & \commandWithFloat\\
+    \verb|\commandWithInteger| & \commandWithInteger\\
+  \end{tabular}
+\end{center}
+
+\newpage{}
+\subsection{Writing arrays using ncmdArray}
+Data available in \stdv{} form can be written to using
+\arrayCmd{}. This command requires three arguments:
+
+\begin{enumerate}
+\item the command name as a string
+\item a \stdv{} containing the column headers
+\item a \stdv{}\texttt{(}\stdv\texttt{)} containing single \stdv{}'s for each line
+\end{enumerate}
+
+Here is some sample output from first calling
+\begin{verbatim}
+  ta.ncmdArray("SampleArray",header,data);
+\end{verbatim}
+which produces the following in the \texfile{:
+
+\begin{verbatim}
+\newcommand{\SampleArray}{
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline Column 0 & Column 1 & Column 2 & Column 3 & Column 4 & Column 5 \\
+        \hline 0 & 1 & 2 & 3 &   &  \\
+        \hline 0 & 1 & 2 & 3 &   &  \\
+        \hline 0 & 1 & 2 & 3 &   &  \\
+        \hline 0 & 1 & 2 & 3 &   &  \\
+        \hline
+        \end{tabular}
+}
+
+\end{verbatim}
+
+and then calling \cmdstyle{\tt \string \SampleArray} within a table
+environment in the final \LaTeX{} document.
+\begin{table}[htbp]
+  \centering
+  \SampleArray
+  \caption{Sample array}
+  \label{tab:sample1}
+\end{table}
+
+Note that in this example, the \stdv{} containing the column header
+strings is larger than the data. In this case, the assistant
+automatically fills empty cells to the right of the existing data
+after printing a warning on the console.
+
+\end{document}
