@@ -26,7 +26,8 @@
 #include <sstream>
 #include "zetotex.cpp"
 
-void code_sample(){
+using namespace std;
+int main(void){
 
   cout << endl << "Starting testing process..."<<endl;
 

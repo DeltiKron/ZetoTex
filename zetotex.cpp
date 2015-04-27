@@ -30,15 +30,15 @@
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
-
+#include <vector>
 #include "zetotex.hpp"
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++
 //              Useful Functions
 //++++++++++++++++++++++++++++++++++++++++++++++++++
-string array_to_str(std::vector<string> array,unsigned int index){
+std::string array_to_str(std::vector<std::string> array,unsigned int index){
   if( index < array.size()){
-    stringstream ss;
+    std::stringstream ss;
     ss.clear();
     ss << array[index];
     return ss.str(); 
@@ -48,9 +48,9 @@ string array_to_str(std::vector<string> array,unsigned int index){
   };
 };
 
-string array_to_str(std::vector<float> array,unsigned int index){
+std::string array_to_str(std::vector<float> array,unsigned int index){
   if( index < array.size()){
-    stringstream ss;
+    std::stringstream ss;
     ss.clear();
     ss << array[index];
     return ss.str(); 
@@ -68,23 +68,23 @@ string array_to_str(std::vector<float> array,unsigned int index){
 
 
 //+++++++++++++++++++Constructor++++++++++++++++++++
-tex_assistant::tex_assistant(string tex_file_path){
+tex_assistant::tex_assistant(std::string tex_file_path){
   tex_file=tex_file_path;
-  fstream myfile;
+  std::fstream myfile;
   
-  time_t t = time(0);// get time now
+  std::time_t t = time(0);// get time now
   struct tm * now = localtime( & t );
 
   myfile.open(tex_file.c_str(), std::ofstream::out | std::ofstream::trunc);
 
-  myfile << "%TexAssistant file written by Tex Assistant"<<endl;
+  myfile << "%TexAssistant file written by Tex Assistant"<<"\n";
   myfile << "%Written on: "
 	 << std::setw(2)<< std::setfill('0')<<now->tm_mday << "."
 	 << std::setw(2)<< std::setfill('0')<<now->tm_mon + 1 << "."
 	 << std::setw(4)<< std::setfill('0')<<now->tm_year + 1900 << " at "
 	 << std::setw(2)<< std::setfill('0')<<now->tm_hour <<":"
 	 << std::setw(2)<< std::setfill('0')<<now->tm_min
-	 <<endl<<endl<<endl;
+	 <<"\n"<<"\n"<<"\n";
     
   myfile.close();
     
@@ -93,8 +93,8 @@ tex_assistant::tex_assistant(string tex_file_path){
 
 //+++++++++++++++++++Write to File++++++++++++++++++
 
-void tex_assistant::write_to_file(string toAppend){
-  fstream myfile;
+void tex_assistant::write_to_file(std::string toAppend){
+  std::fstream myfile;
   myfile.open (tex_file.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
   myfile << toAppend;
   myfile.close();
@@ -103,14 +103,14 @@ void tex_assistant::write_to_file(string toAppend){
 
 //++++++++++++++++++Command Methods+++++++++++++++++
 
-void tex_assistant::ncmdValue(string name, float value){
-  stringstream ss;
+void tex_assistant::ncmdValue(std::string name, float value){
+  std::stringstream ss;
   ss<<value;
   ncmdStr(name,ss.str());
 };
 
-void tex_assistant::ncmdStr(string name, string value){
-  ostringstream oss;
+void tex_assistant::ncmdStr(std::string name, std::string value){
+  std::ostringstream oss;
   oss << "\\newcommand{";
   oss << "\\"+name;
   oss << "}{";
@@ -119,15 +119,15 @@ void tex_assistant::ncmdStr(string name, string value){
   write_to_file(oss.str());
 };
 
-void tex_assistant::ncmdArray(string name,
-			      std::vector <string> header,
+void tex_assistant::ncmdArray(std::string name,
+			      std::vector <std::string> header,
 			      std::vector<std::vector< float> > data){
 
   if(not header.size() == data.size()){
-    cout <<"Header and data not of compatible size! \n  appending empty spaces where necessary ";
+    std::cout <<"Header and data not of compatible size! \n  appending empty spaces where necessary ";
   }  
-  int ncols=max(header.size(),data[0].size());
-  ostringstream oss;
+  int ncols=std::max(header.size(),data[0].size());
+  std::ostringstream oss;
   oss << "\n\t\\begin{tabular}{";
   for(int i=0;i<ncols-1;i++){
     oss<< "|c";

@@ -82,7 +82,7 @@
       \newcommand{\arrayCmd}{\cmdstyle{.ncmdArray()}}
       \newcommand{\cmdstyle}[1]{\textbf{\texttt{#1}}}
 
-      \newcommand{\headerfile}{\filename{zetotex.hpp}}
+      \newcommand{\headerfile}{\filename{zetotex.cpp}}
       \newcommand{\texfile}{\enquote{.tex} file}
 
 
@@ -100,11 +100,11 @@ examples of output.
 In order to use the assistant, the custom header \headerfile{} needs to be
 included in your \cpp{}-project. this can be done using
 \begin{verbatim}
-#include "path/to/zetotex.h"
+#include "path/to/zetotex.cpp"
 \end{verbatim}
 in your code header. This provides the \ta{} class which will be used to handle
 all actions described in the following sections.
-\subsection{The \enquote{tex\_assistant} Class}
+\subsection{The \ta{} Class}
 
 The interface consists of an object of the type \ta{}. The constructor takes one
 argument, which is a string containing the path where the latex document
@@ -116,7 +116,7 @@ by calling methods inherent to the \ta{} class. Example Constructor call:
 tex_assistant ta = tex_assistant("./output/tex_sample.tex");
 \end{verbatim}
 
-\subsection{Single Number Commands}
+\subsection{Single Value Commands}
 
 A command to represent a single number can be generated using the
 \singleValCmd{} method. It can be called as:
@@ -138,7 +138,7 @@ Invoking these commands in a document yields:
 
 \begin{center}
   \begin{tabular}{l|l}
-    Command & Output\\ \hline{}
+    Command & Output\\\hline
     \verb|\commandWithFloat| & \commandWithFloat\\
     \verb|\commandWithInteger| & \commandWithInteger\\
   \end{tabular}

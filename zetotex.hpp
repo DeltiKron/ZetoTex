@@ -25,16 +25,17 @@
 #include <iostream>
 #include <string.h>
 #include <cstring>
+#include <vector>
 
-string array_to_str(std::vector<float> array,unsigned int index);
+std::string array_to_str(std::vector<float> array,unsigned int index);
 
 class tex_assistant{
 public:
-  string tex_file;
-  tex_assistant(string tex_file_path);
-  void write_to_file(string toAppend);
-  void ncmdValue(string name, float value);
-  void ncmdStr(string name, string value);
-  void ncmdArray(string name, std::vector <string> header,std::vector<std::vector< float> > data);
+  std::string tex_file;
+  tex_assistant(std::string tex_file_path);
+  void write_to_file(std::string toAppend);
+  void ncmdValue(std::string name, float value);
+  void ncmdStr(std::string name, std::string value);
+  void ncmdArray(std::string name, std::vector <std::string> header,std::vector<std::vector< float> > data);
 };
 
