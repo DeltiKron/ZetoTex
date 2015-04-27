@@ -2,6 +2,8 @@
 #      Library for Latex from Data
 # V1.0
 #
+#
+# Written by Carl Schaffer
 #****************************************
 
 
@@ -80,6 +82,9 @@ class tex_assistant():
             outstring+="\\end{tabular}";
             return outstring
 
+
+
+        
 ta = tex_assistant("test.tex")
 print ta.writeValue("Answer",42)
 ta.appendString(ta.writeValue("Answer",42))
@@ -88,3 +93,5 @@ ta.appendString(ta.writeValue("Answer",42))
 header= ["a","a","a","a","a","a"];
 data  = [[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]
 ta.appendString(ta.writeTable("thetable",header,data))
+
+print "done"
