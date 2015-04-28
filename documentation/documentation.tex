@@ -96,7 +96,15 @@ writing. This document will show how to use the Latex assistant and provide
 examples of output.
 
 
-\section{Using the Assistant}
+
+\section{Getting and Using the Assistant}
+
+The ZetoTex-Package can be found on github:\\
+
+\texttt{https://github.com/DeltiKron/ZetoTex}
+\\
+use \cmdstyle{git clone} to obtain a working copy of the master branch.
+
 In order to use the assistant, the custom header \headerfile{} needs to be
 included in your \cpp{}-project. this can be done using
 \begin{verbatim}
@@ -104,6 +112,17 @@ included in your \cpp{}-project. this can be done using
 \end{verbatim}
 in your code header. This provides the \ta{} class which will be used to handle
 all actions described in the following sections.
+
+If you are not compiling your code, you will have to work out how to
+make your interpreter handle things correctly. The \texttt{ROOT}
+frameworks' \texttt{CINT} interpreter can make the classes and methods
+available using:
+
+\begin{verbatim}
+  gSystem->CompileMacro("/path/to/zetotex.cpp");
+\end{verbatim}
+  
+
 \subsection{The \ta{} Class}
 
 The interface consists of an object of the type \ta{}. The constructor takes one
