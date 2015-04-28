@@ -1,3 +1,4 @@
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++
 //            ZetoTex Latex Assistant
 //                 Version 1.0
@@ -27,7 +28,8 @@
 #include "zetotex.cpp"
 
 using namespace std;
-int main(void){
+
+void code_sample(void){
 
   cout << endl << "Starting testing process..."<<endl;
 
@@ -77,3 +79,9 @@ int main(void){
 
   cout <<"\nTesting finished!\n";
 };
+
+
+int main(void){
+  code_sample();
+  return 0;
+}
