@@ -1,0 +1,11 @@
+*.d
+*.*~
+*.so*
+#*.*
+#*.*#
+.#*.*
+*.aux
+*.log
+*.el
+auto
+tex_sample.tex
